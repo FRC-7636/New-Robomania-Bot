@@ -160,11 +160,11 @@ class General(commands.Cog):
                 or after.channel is None
                 or before.channel.id != after.channel.id
         ):
-            member_real_name = await self.rwapi.search_members(discord_id=member.id)
-            if isinstance(member_real_name, list) and len(member_real_name) > 0:
-                member_real_name = member_real_name[0]["real_name"]
-            if member_real_name is None:
-                member_real_name = member.name
+            member_rwapi = await self.rwapi.search_members(discord_id=member.id)
+            if isinstance(member_rwapi, list) and len(member_rwapi) > 0:
+                member_real_name = member_rwapi[0]["real_name"]
+            else:
+                member_real_name = f"{member.nick} ({member.name})"
             if not isinstance(before.channel, type(None)):
                 await before.channel.send(
                     f"<:left:1208779447440777226> **{member_real_name}** "
